@@ -1,0 +1,11 @@
+step,n_in,n_flagged,n_out
+input,9368,0,9368
+missing text,9368,81,9287
+no words after masking,9287,16,9271
+off-topic MBG 2027,9271,5,9266
+out of window,9266,0,9266
+identical text (keep one),9266,507,8759
+-> in_all (analysis with flagged data),8759,0,8759
+bot account,8759,818,7941
+campaign hashtag,7941,1079,6862
+-> in_clean (analysis without flagged data),6862,0,6862
