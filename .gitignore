@@ -16,3 +16,4 @@ config_local.py
 .venv/
 __pycache__/
 
+AGENTS.md
