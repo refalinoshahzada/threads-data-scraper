@@ -2,6 +2,8 @@
 
 Dokumen ini menjelaskan cara kerja kolektor, cara menjalankannya dari awal sampai selesai, dan cara membaca keluarannya. Kolektor tidak memakai Threads API resmi, karena API tersebut tidak menyediakan pencarian kata kunci historis atas unggahan akun lain. Kolektor memakai Selenium dengan profil Chrome yang sudah login. Ia memuat halaman pencarian dan halaman post Threads yang dirender secara dinamis, lalu menangkap respons GraphQL Threads dari *performance log* Chrome.
 
+![Diagram pipeline pengumpulan data](img/pipeline.png)
+
 ```mermaid
 flowchart LR
   A[12 kueri tim<br/>keywords.txt] --> B[Selenium + Chrome login<br/>pencarian Recent dan Top]
