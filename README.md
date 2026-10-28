@@ -1,50 +1,41 @@
 # Threads MBG 2027: collection and preprocessing
 
-Proyek Analitika Media Sosial UI ini mengumpulkan post dan reply Threads tentang anggaran Makan Bergizi Gratis (MBG) 2027, diterbitkan **3–30 September 2026 WIB**. RQ1 membahas sentimen, RQ2 tema, dan RQ3 hubungan keduanya. Repo ini menyiapkan data; IndoBERT dan BERTopic belum dilatih/dijalankan.
+Proyek Analitika Media Sosial UI ini mengumpulkan post dan reply Threads tentang anggaran Makan Bergizi Gratis (MBG) 2027, diterbitkan **3–30 September 2026 WIB**. RQ1 membahas sentimen, RQ2 tema, dan RQ3 hubungan keduanya. Repo ini menyiapkan data; IndoBERTweet belum dilatih/dijalankan.
 
 ## Alur singkat
 
 1. **Koleksi**: `scraper.py` (Selenium + Chrome login) mencari 12 kueri di `keywords.txt`, meng-crawl reply, lalu menulis `output/threads_raw.csv` (17 kolom) dan `output/threads_dataset.csv` (6 kolom). Panduan langkah demi langkah ada di **[docs/collection_pipeline.md](docs/collection_pipeline.md)**.
 2. **Pembekuan**: ekspor disalin ke `data/raw/` dan hash-nya dicatat di `metadata/`.
-3. **Preprocessing**: `preprocess.py` menambah flag dan teks turunan, lalu menulis subset utama untuk IndoBERT/BERTopic.
+3. **Preprocessing**: `preprocessing/preprocess_v2.py` menambah flag dan teks model, lalu menulis satu dataset final untuk IndoBERTweet (`data/processed/`). `preprocess_v1.py` adalah iterasi sebelumnya.
 
 Data (teks, permalink, anotasi) bersifat privat dan **tidak** ada di repo publik; yang dipublikasikan hanya kode, dokumentasi, dan ringkasan agregat.
 
 ## Input privat
 
-`data/raw/threads_units_2026-09_v1.csv` adalah ekspor beku 9.368 unit dengan 17 kolom, SHA-256 `95c2af37f13bbacbebff1a04c7ac311c6e972e2c5cb67ce64b85e3d882d728df`. Ini ekspor terstruktur, bukan observasi JSONL paling awal. Nama file di spesifikasi memiliki prefiks angka yang tidak ada pada file lokal; konstanta di [preprocess.py](preprocess.py) memakai nama lokal. `data/raw/threads_team_export_2026-09_v1.csv` adalah proyeksi enam kolom untuk tim, bukan input preprocessing. Data diperoleh melalui handoff privat; lihat [data/README.md](data/README.md).
+`data/raw/threads_units_2026-09_v1.csv` adalah ekspor beku 9.368 unit dengan 17 kolom, SHA-256 `95c2af37f13bbacbebff1a04c7ac311c6e972e2c5cb67ce64b85e3d882d728df`. Ini ekspor terstruktur, bukan observasi JSONL paling awal. Nama file di spesifikasi memiliki prefiks angka yang tidak ada pada file lokal; konstanta di [preprocessing/](preprocessing/) memakai nama lokal. `data/raw/threads_team_export_2026-09_v1.csv` adalah proyeksi enam kolom untuk tim, bukan input preprocessing. Data diperoleh melalui handoff privat.
 
 ## Menjalankan preprocessing (Windows)
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\python -m pip install -r requirements.txt
-.venv\Scripts\python preprocess.py
-.venv\Scripts\python -m unittest discover -s tests
+.venv\Scripts\python preprocessing\preprocess_v2.py
 ```
 
-Pipeline tidak mengunduh model maupun menghitung token IndoBERT. Semua parameter ada sebagai konstanta di bagian atas [preprocess.py](preprocess.py); untuk mengganti input atau ambang, edit konstanta lalu jalankan lagi. `resources/slang_id.csv` dan `resources/stopwords_id.txt` adalah daftar kata yang digunakan.
-
-Delapan langkah: muat dan validasi → bersihkan karakter → tandai duplikat → tandai kampanye/bot → relevansi dan konteks root → teks sentimen varian A/B → teks topik → split berdasarkan thread. **Tabel penuh mempertahankan semua unit dan `text_raw` persis dari sumber.** Lihat [protokol preprocessing](docs/preprocessing_protocol.md).
+Pipeline tidak mengunduh model maupun melatih apa pun. Alurnya `data/raw` → `data/interim` → `data/processed`; masalah kualitas (bot, kampanye, akun repetitif, teks identik, teks kosong) hanya diberi flag sehingga analisis dapat dijalankan dengan (`in_all`) dan tanpa (`in_clean`) data tersebut. Teks model mengikuti format IndoBERTweet (`@USER`, `HTTPURL`, emoji jadi teks, negasi dipertahankan). Detail, iterasi v1 → v2, dan jejak reproduksi: [protokol preprocessing](docs/preprocessing_protocol.md) dan [reproduksibilitas](docs/reproducibility.md).
 
 | Keluaran privat | Isi |
 |---|---|
-| `data/processed/threads_full.parquet` | Seluruh unit, kolom input, flag, dan teks turunan. `permalink` dan `text_raw` tetap privat di sini. |
-| `data/processed/threads_main.csv` | Subset utama dengan 14 kolom inti model; tanpa `permalink` dan `text_raw`. |
-| `data/processed/stopwords_topic.txt` | Stopword Indonesia + domain untuk vectorizer BERTopic; tidak dihapus dari `text_topic`. |
-| `data/annotation/to_label.csv` | Sampel 1.200 unit dari split train/val/test, teks parent dan mention dimasking, kolom label kosong. |
-| `reports/funnel.csv` | Penyusutan data pada setiap aturan sampai subset utama dan kelayakan topik. |
-| `reports/relevance_check.csv` | Sampel pemeriksaan relevansi manual. |
+| `data/interim/threads_2026-09_pp1_*.csv`, `pp2_flagged.csv` | Hasil antara tiap iterasi (semua unit + flag). |
+| `data/processed/threads_2026-09_pp2_final.csv` | **Satu** dataset final: 8.759 unit `in_all`, kolom `text_model`, `context_model`, flag, `in_clean`. |
+| `reports/*_pp2.csv` | Funnel, ringkasan flag, 81 teks kosong untuk dicek manual. |
+| `metadata/preprocessing_manifest_pp2.json` | Hash, parameter, versi library, commit git (tanpa teks). |
 
-Flag inti: `flag_text_missing`, `flag_out_of_window`, `flag_dup_same_author`, `flag_dup_cross_author`, `flag_campaign`, `flag_bot`, `flag_no_context`, dan `is_relevant`. `in_main` adalah keputusan subset; `use_for_topic_fit` menandai dokumen yang cukup panjang dan tidak berulang lintas akun. Flag bot/kampanye adalah heuristik, bukan identitas atau koordinasi yang sudah terbukti.
+Run saat ini: **9.368 unit**, **8.759 `in_all`**, **6.762 `in_clean`**; 818 balasan dari satu akun otomatis, 1.354 unit kampanye (1.205 pada 30 September), 100 unit dari satu akun repetitif, 507 salinan teks identik dibuang. Flag bersifat sementara, bukan bukti identitas atau koordinasi.
 
-Run saat ini menghasilkan **9.368 unit penuh**, **6.962 unit utama**, **5.933 unit layak untuk pelatihan topik**, 1.355 unit berhashtag kampanye, 818 unit dari akun yang ditandai, dan 153 duplikat penulis sama. Audit relevansi berisi 50 unit yang diprediksi relevan dan semua 32 unit yang diprediksi tidak relevan; target 50 negatif tidak tersedia. Tim mengisi `manual_relevant` pada salinan audit, bukan pada file hasil run.
+## Keputusan terbuka
 
-## Resource dan keputusan tim
-
-`resources/slang_id.csv` adalah kamus kecil yang dikurasi dari bentuk-bentuk pada spesifikasi tim; [Colloquial Indonesian Lexicon](https://github.com/nasalsabila/kamus-alay) adalah referensi untuk perluasan kamus nanti. `resources/stopwords_id.txt` diambil 27 Oktober 2026 dari [stopwords-iso/stopwords-id](https://github.com/stopwords-iso/stopwords-id) dengan [lisensi MIT](resources/LICENSE-stopwords-id.txt).
-
-Hash akun `80ac16d6…` diberi flag manual sesuai spesifikasi karena 818 balasannya. **Verifikasi manusia melalui permalink belum dilakukan.** Sebelum analisis final, tim perlu mengisi audit relevansi dan label sentimen, lalu membandingkan macro F1 `text_sent_a` dan `text_sent_b`. Untuk jawaban RQ3, topik pada reply pendek yang tidak dilatih dapat diambil dari post root melalui `thread_root_id` setelah BERTopic dijalankan.
+Akun `80ac16d6…` diberi flag sebagai bot Meta AI karena 818 balasannya; identitasnya sudah dicek pada 3 permalink publik (halaman bernama Meta AI, @meta.ai); 114 dari 120 induk reply yang terkumpul men-tag @meta.ai dan jawaban muncul median 26 detik kemudian. 81 teks kosong sudah diperiksa pada halaman publik dan seluruhnya berisi media tanpa caption (satu halaman tidak tersedia), sehingga dikeluarkan. Berikutnya: melabeli sampel sentimen, lalu split per `thread_root_id` dan melatih IndoBERTweet.
 
 ## Scraper
 

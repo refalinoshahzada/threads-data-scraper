@@ -1,0 +1,66 @@
+{
+  "pipeline": {
+    "script": "preprocess_v1.py",
+    "version": "1.0",
+    "script_sha256": "d709ff6221b1688bf0e74b8b99be0b4ccf7c849b4bf6a5f6be3a288216eaec57",
+    "git": {
+      "commit": "98df845f8e35bc9366a6be9739ab900143256383",
+      "dirty": true
+    }
+  },
+  "dataset_version": "2026-09_v1",
+  "run_utc": "2026-10-28T15:18:37+00:00",
+  "input": {
+    "file": "threads_units_2026-09_v1.csv",
+    "sha256": "95c2af37f13bbacbebff1a04c7ac311c6e972e2c5cb67ce64b85e3d882d728df"
+  },
+  "parameters": {
+    "window_wib": [
+      "2026-09-03T00:00:00+07:00",
+      "2026-09-30T23:59:59+07:00"
+    ],
+    "campaign_hashtags": [
+      "#jagaindonesia",
+      "#gizidanpendidikan"
+    ],
+    "bot_author_hash": "80ac16d6a37404aab983670ed2377d29d47475f8f68e3b6036b379ede67eb0c7",
+    "model_tokens": {
+      "url": "HTTPURL",
+      "user": "@USER"
+    },
+    "target_model": "indolem/indobertweet-base-uncased"
+  },
+  "software": {
+    "python": "3.11.9",
+    "pandas": "2.2.3",
+    "emoji": "2.14.1"
+  },
+  "counts": {
+    "units": 9368,
+    "flag_text_missing": 81,
+    "flag_no_words": 16,
+    "flag_offtopic": 5,
+    "flag_out_of_window": 0,
+    "flag_bot": 818,
+    "flag_campaign": 1354,
+    "flag_campaign_authors": 1267,
+    "flag_campaign_on_30_sep": 1205,
+    "rows_in_identical_text_groups": 728,
+    "flag_dup_text_extra_copies": 507,
+    "flag_dup_same_author": 149,
+    "max_same_text_by_one_author": 48,
+    "reply_crawl_units": 4063,
+    "reply_crawl_without_mbg": 3526,
+    "flag_context_needed": 3526,
+    "flag_no_context": 11,
+    "in_all": 8759,
+    "in_clean": 6862
+  },
+  "outputs": {
+    "data/interim/threads_2026-09_pp1_flagged.csv": "6688fad4cf6a502cc7ab9ecb32e278d2febe653ea80f1aab09d345db87cee5dc",
+    "data/interim/threads_2026-09_pp1_analysis.csv": "e3cdfcec7392bec7ba10dde3e0519ec00598bffeb758d67134e935f86e963248",
+    "reports/funnel_pp1.csv": "9caed7122f7b850c151fbfdd319234d75c8ada6057698498bbfadc7820a78d50",
+    "reports/flag_summary_pp1.csv": "daf09209395b5542b42cd1ab8ba85636272d4bdddb619fe06f527eb3e9a6dff3",
+    "reports/missing_text_check_pp1.csv": "602cc05f3a07587a7d15db70e83d9489235bd82c83db1dd2384bdb84e202b7d4"
+  }
+}

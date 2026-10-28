@@ -1,0 +1,72 @@
+{
+  "pipeline": {
+    "script": "preprocess_v2.py",
+    "version": "2.0",
+    "script_sha256": "a6312591dffd64faaf1c3482dcfe5e84afc5af03f5e758246c594454784b3b53",
+    "git": {
+      "commit": "98df845f8e35bc9366a6be9739ab900143256383",
+      "dirty": true
+    }
+  },
+  "dataset_version": "2026-09_v1",
+  "run_utc": "2026-10-28T15:28:45+00:00",
+  "input": {
+    "file": "threads_units_2026-09_v1.csv",
+    "sha256": "95c2af37f13bbacbebff1a04c7ac311c6e972e2c5cb67ce64b85e3d882d728df"
+  },
+  "parameters": {
+    "window_wib": [
+      "2026-09-03T00:00:00+07:00",
+      "2026-09-30T23:59:59+07:00"
+    ],
+    "campaign_hashtags": [
+      "#jagaindonesia",
+      "#gizidanpendidikan"
+    ],
+    "repeat_author": {
+      "jaccard": 0.4,
+      "min_copies": 10
+    },
+    "bot_author_hash": "80ac16d6a37404aab983670ed2377d29d47475f8f68e3b6036b379ede67eb0c7",
+    "model_tokens": {
+      "url": "HTTPURL",
+      "user": "@USER"
+    },
+    "target_model": "indolem/indobertweet-base-uncased"
+  },
+  "software": {
+    "python": "3.11.9",
+    "pandas": "2.2.3",
+    "emoji": "2.14.1"
+  },
+  "counts": {
+    "units": 9368,
+    "flag_text_missing": 81,
+    "flag_no_words": 16,
+    "flag_offtopic": 5,
+    "flag_out_of_window": 0,
+    "flag_bot": 818,
+    "flag_campaign": 1354,
+    "flag_repeat_author": 153,
+    "flag_context_root": 371,
+    "flag_campaign_authors": 1267,
+    "flag_campaign_on_30_sep": 1205,
+    "rows_in_identical_text_groups": 728,
+    "flag_dup_text_extra_copies": 507,
+    "flag_dup_same_author": 149,
+    "max_same_text_by_one_author": 48,
+    "reply_crawl_units": 4063,
+    "reply_crawl_without_mbg": 3526,
+    "flag_context_needed": 3526,
+    "flag_no_context": 0,
+    "in_all": 8759,
+    "in_clean": 6762
+  },
+  "outputs": {
+    "data/interim/threads_2026-09_pp2_flagged.csv": "17f0f8ace5adc4aef5e38d054269fc02b6c3bc7da7cc4508e23ec63680a73357",
+    "data/processed/threads_2026-09_pp2_final.csv": "698b9e8f4fe3c8ca378e2eed18f9afdd3bf1b6ad670cea60a8f401ed0253cb2f",
+    "reports/funnel_pp2.csv": "d5dab2b7f4096326719ce08fedd117e4624c5b27a0957f4d8292a6aad2b8e6d9",
+    "reports/flag_summary_pp2.csv": "992c02eea9d12c9297e66dfb9f1a10f91e69ca33c6ded509b8b4acbaa11aa5f2",
+    "reports/missing_text_check_pp2.csv": "602cc05f3a07587a7d15db70e83d9489235bd82c83db1dd2384bdb84e202b7d4"
+  }
+}
