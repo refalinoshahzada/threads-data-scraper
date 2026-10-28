@@ -1,0 +1,71 @@
+{
+  "scope": "Threads, MBG 2027 budget, 2026-09-03 through 2026-09-30 WIB",
+  "files": {
+    "raw_units": {
+      "path": "data/raw/threads_units_2026-09_v1.csv",
+      "sha256": "95c2af37f13bbacbebff1a04c7ac311c6e972e2c5cb67ce64b85e3d882d728df",
+      "rows": 9368
+    },
+    "team_export": {
+      "path": "data/raw/threads_team_export_2026-09_v1.csv",
+      "sha256": "1d7bccf6826f08cc5a1da44ec27f44dfc15224bb40e30cafadd0224ebb3b9597",
+      "rows": 9368
+    }
+  },
+  "collection_completion": "not_verified",
+  "checkpoint_present": false,
+  "counts": {
+    "unique_unit_ids": 9368,
+    "unit_type": {
+      "post": 2196,
+      "reply": 6835,
+      "self_thread": 337
+    },
+    "search_mode_first_seen": {
+      "recent": 5232,
+      "reply_crawl": 4063,
+      "top": 73
+    },
+    "by_publication_date_wib": {
+      "2026-09-03": 279,
+      "2026-09-04": 242,
+      "2026-09-05": 183,
+      "2026-09-06": 321,
+      "2026-09-07": 307,
+      "2026-09-08": 179,
+      "2026-09-09": 197,
+      "2026-09-10": 184,
+      "2026-09-11": 115,
+      "2026-09-12": 255,
+      "2026-09-13": 123,
+      "2026-09-14": 145,
+      "2026-09-15": 239,
+      "2026-09-16": 140,
+      "2026-09-17": 526,
+      "2026-09-18": 532,
+      "2026-09-19": 588,
+      "2026-09-20": 291,
+      "2026-09-21": 205,
+      "2026-09-22": 280,
+      "2026-09-23": 278,
+      "2026-09-24": 206,
+      "2026-09-25": 473,
+      "2026-09-26": 183,
+      "2026-09-27": 95,
+      "2026-09-28": 193,
+      "2026-09-29": 356,
+      "2026-09-30": 2253
+    },
+    "empty_text": 81,
+    "reply_or_self_thread_without_root_id": 1787,
+    "repeated_exact_text_groups": 211,
+    "repeated_exact_text_rows": 687
+  },
+  "missing_by_column": {
+    "matched_keywords": 4063,
+    "parent_id": 2196,
+    "root_id": 1787,
+    "text": 81
+  },
+  "issues": {}
+}

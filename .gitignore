@@ -1,0 +1,18 @@
+# logged-in browser sessions: never commit
+profiles/
+# scraped / captured data
+recon/
+state/
+logs/
+output/
+runs/
+# private text-bearing datasets and reports (aggregates are added with -f)
+data/
+reports/
+# secrets (author_hash salt)
+config_local.py
+.env
+# python
+.venv/
+__pycache__/
+

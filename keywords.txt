@@ -1,0 +1,18 @@
+# Team's final query list (12), period 3-30 Sep 2026. Format: team query | Recent fetch query
+# Threads search does not AND the words of a query (3+ words are ORed; tested 26 Oct), so Recent fetches with a 2-word form
+# and the scraper keeps only hits whose text contains EVERY word of a team query (matched_keywords lists which).
+# This file is also the match list on every machine; keywords_part1/2.txt split the searching.
+# Group A: core keywords (priority: high)
+anggaran MBG 2027 | MBG 2027
+MBG 2027
+anggaran BGN 2027 | BGN 2027
+makan bergizi gratis 2027 | bergizi 2027
+MBG 240 triliun | 240 triliun
+MBG 232 triliun | 232 triliun
+RAPBN 2027 MBG | MBG 2027
+RKA BGN 2027 | BGN 2027
+# Group B: priorities and efficiency (priority: medium)
+efisiensi anggaran MBG | efisiensi MBG
+MBG anggaran pendidikan | MBG pendidikan
+MBG dana pendidikan | MBG pendidikan
+anggaran MBG dipangkas | MBG dipangkas
